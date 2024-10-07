@@ -8,16 +8,35 @@ import TvRoundedIcon from "@mui/icons-material/TvRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { blueGrey } from "@mui/material/colors";
+
 export default function SimpleBottomNavigation() {
   const [value, setValue] = useState(0);
   const navi = ["/", "/Movies", "/TvSeries", "/Search"];
   const navigate = useNavigate();
+
   useEffect(() => {
     navigate(navi[value]);
   }, [value]);
 
   return (
-    <Box sx={{ width: "100%", position: "sticky", bottom: "0" }}>
+    <Box
+      sx={{
+        width: "100%",
+        position: "sticky",
+        bottom: "0",
+        "& .MuiBottomNavigation-root": {
+          bgcolor: "#2d313a",
+          "& .MuiButtonBase-root": {
+            color: "#fff",
+          },
+          "& .Mui-selected": {
+            color: "aqua",
+          },
+        },
+      }}
+    >
       <BottomNavigation
         showLabels
         value={value}

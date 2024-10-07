@@ -11,6 +11,7 @@ import TvSeries from "./pages/TvSeries";
 import Search from "./pages/Search";
 import Trending from "./pages/Trending";
 import SimpleBottomNavigation from "./SimpleBottomNavigation";
+
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ function App() {
           </Routes>
         </Container>
       </div>
+
       <SimpleBottomNavigation />
     </BrowserRouter>
   );
