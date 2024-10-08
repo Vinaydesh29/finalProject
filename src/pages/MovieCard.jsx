@@ -5,9 +5,11 @@ import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 function MovieCard(props) {
   const content = props.data;
+  console.log(content);
+
   return (
     <>
-      {content.map((content) => {
+      {content.map((items, index) => {
         return (
           <Card
             sx={{
@@ -18,7 +20,7 @@ function MovieCard(props) {
               display: "inline-block",
             }}
           >
-            <CardActionArea key={content.id}>
+            <CardActionArea key={index}>
               <CardMedia
                 component="img"
                 height="140"
@@ -26,11 +28,8 @@ function MovieCard(props) {
                 alt="green iguana"
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {content.name}
-                </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {content.email}
+                <Typography gutterBottom variant="h8" component="div">
+                  {items}
                 </Typography>
               </CardContent>
             </CardActionArea>
