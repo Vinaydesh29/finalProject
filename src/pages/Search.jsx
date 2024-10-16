@@ -5,7 +5,9 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import MovieCard from "./MovieCard";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -36,10 +38,39 @@ function a11yProps(index) {
 }
 function Search() {
   const [value, setValue] = useState(0);
-
+  const [type, setType] = useState("");
+  const [content, setContent] = useState([]);
+  const [text, setText] = useState("");
+  const handleText = (e) => {
+    setText(e.target.value);
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const handleType = (selectedType) => {
+    setType(selectedType);
+    console.log(selectedType, "type");
+  };
+  const [searchText, setSearchText] = useState("");
+  const handleClick = () => {
+    setSearchText(text);
+    console.log(text, "string");
+  };
+  useEffect(() => {
+    const testing = async () => {
+      await axios
+        .get(
+          `https://api.themoviedb.org/3/search/${
+            type === "tv" ? "tv" : "movie"
+          }?api_key=a9fcb33911f46a7aabb349c6851d0f8a&language=en-US&query=${searchText}&page=1&include_adult=false`
+        )
+        .then((result) => {
+          setContent(result.data.results);
+          console.log(result.data.results);
+        });
+    };
+    testing();
+  }, [type, searchText]);
   return (
     <>
       <div>
@@ -53,6 +84,7 @@ function Search() {
             backgroundColor: "#546e7a",
             borderRadius: "5px",
           }}
+          onChange={handleText}
         />
         <ButtonBase
           sx={{
@@ -63,6 +95,7 @@ function Search() {
             marginLeft: "8px",
             borderRadius: "6px",
           }}
+          onClick={handleClick}
         >
           <SearchIcon sx={{ fontSize: "40px", color: " #39445A" }} />
         </ButtonBase>
@@ -76,22 +109,48 @@ function Search() {
             sx={{ marginTop: "10px" }}
           >
             <Tab
-              label=" Search Movies"
+              label="Search Movies"
               {...a11yProps(0)}
               sx={{ width: "20%" }}
+              onClick={() => handleType("movie")}
             />
             <Tab
               label="Search TV Series"
               {...a11yProps(1)}
               sx={{ width: "20%" }}
+              onClick={() => handleType("tv")}
             />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Search Movies
+          {content.map((items, index) => {
+            return (
+              <MovieCard
+                key={index}
+                poster={items.poster_path}
+                title={items.title}
+                date={items.first_air_date}
+                vote={items.vote_average}
+                name={items.name}
+                type={items.media_type}
+              />
+            );
+          })}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Search TV Series
+          {content.map((items, index) => {
+            return (
+              <MovieCard
+                key={index}
+                poster={items.poster_path}
+                title={items.title}
+                date={items.first_air_date}
+                vote={items.vote_average}
+                name={items.name}
+                type={items.media_type}
+              />
+            );
+          })}
         </CustomTabPanel>
       </Box>
     </>

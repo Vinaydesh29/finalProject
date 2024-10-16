@@ -3,40 +3,56 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
-function MovieCard(props) {
-  const content = props.data;
-  console.log(content);
-
+import Badge from "@mui/material/Badge";
+function MovieCard({ poster, title, date, vote, name, type }) {
   return (
-    <>
-      {content.map((items, index) => {
-        return (
-          <Card
-            sx={{
-              maxWidth: 345,
-              padding: "10px",
-              marginLeft: "10px",
-              marginTop: "10px",
-              display: "inline-block",
-            }}
-          >
-            <CardActionArea key={index}>
-              <CardMedia
-                component="img"
-                height="140"
-                image="https://idolkart.com/cdn/shop/articles/Wife_of_Lord_Ganesha.jpg?v=1700210846&width=1500"
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h8" component="div">
-                  {items}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        );
-      })}
-    </>
+    <Badge
+      color="primary"
+      badgeContent={vote}
+      sx={{ position: "relative", top: "20px" }}
+    >
+      <Card
+        sx={{
+          maxWidth: 500,
+          padding: "10px",
+          marginLeft: "20px",
+          marginBottom: "20px",
+          display: "inline-block",
+        }}
+      >
+        <CardActionArea sx={{ maxWidth: 345 }}>
+          <CardMedia
+            component="img"
+            image={`https://image.tmdb.org/t/p/w300${poster}`}
+            height="250px"
+            sx={{ objectFit: "cover" }}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {title || name}
+            </Typography>
+            <span
+              style={{
+                marginLeft: "0px",
+                fontSize: "15px",
+                fontWeight: "bold",
+              }}
+            >
+              {type === "tv" ? "TV Series" : "Movie"}
+            </span>
+            <span
+              style={{
+                marginLeft: "70px",
+                fontSize: "15px",
+                fontWeight: "bold",
+              }}
+            >
+              {date}
+            </span>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Badge>
   );
 }
 export default MovieCard;

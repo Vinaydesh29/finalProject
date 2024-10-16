@@ -1,50 +1,52 @@
+import axios from "axios";
+import UserPagination from "../Components/UserPagination";
 import MovieCard from "./MovieCard";
 import { useState, useEffect } from "react";
+
 function Trending() {
   const [content, setContent] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
-    let test = fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((res) => {
-        if (res.ok) {
-          let data = res.json();
-          return data;
-        }
-      })
-      .then((res) => {
-        setContent(res);
-      });
-  }, []);
-  const data = content.map((items) => {
-    return [items.body];
-  });
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-  const indexOfLastItem = itemsPerPage * currentPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-  const TotalPages = Math.ceil(data.length / itemsPerPage);
-  const HandleNumber = (number) => {
-    setCurrentPage(number);
-  };
+    const testing = async () => {
+      //
+      await axios
+        .get(
+          `https://api.themoviedb.org/3/trending/all/day?api_key=a9fcb33911f46a7aabb349c6851d0f8a&page=${page}`
+        )
+        .then((result) => {
+          setContent(result.data.results);
+          setTotalPages(result.data.total_pages);
+        });
+    };
+    testing();
+  }, [page]);
+
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const itemsPerPage = 5;
+  // const indexOfLastItem = itemsPerPage * currentPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  // const TotalPages = Math.ceil(data.length / itemsPerPage);
+
   return (
     <>
-      <h1>Trending</h1>
-      {currentItems.map((items, index) => {
-        return <MovieCard key={index} data={items} />;
-      })}
-      <div>
-        {Array.from({ length: TotalPages }, (_, i) => i + 1).map((number) => {
+      {content &&
+        content.map((items, index) => {
           return (
-            <button
-              key={number}
-              onClick={() => HandleNumber(number)}
-              style={{ width: "5%" }}
-            >
-              {number}
-            </button>
+            <MovieCard
+              key={index}
+              poster={items.poster_path}
+              title={items.title}
+              date={items.first_air_date}
+              vote={items.vote_average}
+              name={items.name}
+              type={items.media_type}
+            />
           );
         })}
-      </div>
+      <UserPagination setPage={setPage} totalPages={totalPages} />
     </>
   );
 }
