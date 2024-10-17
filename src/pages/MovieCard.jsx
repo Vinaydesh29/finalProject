@@ -5,10 +5,11 @@ import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import Badge from "@mui/material/Badge";
 function MovieCard({ poster, title, date, vote, name, type }) {
+  const formattedVote = vote ? vote.toFixed(1) : "N/A";
   return (
     <Badge
       color="primary"
-      badgeContent={vote}
+      badgeContent={formattedVote}
       sx={{ position: "relative", top: "20px" }}
     >
       <Card

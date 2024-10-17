@@ -8,6 +8,9 @@ import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MovieCard from "./MovieCard";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import Stack from "@mui/material/Stack";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -41,6 +44,7 @@ function Search() {
   const [type, setType] = useState("");
   const [content, setContent] = useState([]);
   const [text, setText] = useState("");
+  const [searched, setSearched] = useState(false);
   const handleText = (e) => {
     setText(e.target.value);
   };
@@ -54,8 +58,9 @@ function Search() {
   const [searchText, setSearchText] = useState("");
   const handleClick = () => {
     setSearchText(text);
-    console.log(text, "string");
+    setSearched(true);
   };
+
   useEffect(() => {
     const testing = async () => {
       await axios
@@ -66,11 +71,11 @@ function Search() {
         )
         .then((result) => {
           setContent(result.data.results);
-          console.log(result.data.results);
         });
     };
     testing();
   }, [type, searchText]);
+
   return (
     <>
       <div>
@@ -123,34 +128,52 @@ function Search() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          {content.map((items, index) => {
-            return (
-              <MovieCard
-                key={index}
-                poster={items.poster_path}
-                title={items.title}
-                date={items.first_air_date}
-                vote={items.vote_average}
-                name={items.name}
-                type={items.media_type}
-              />
-            );
-          })}
+          {content.length === 0 && searched ? (
+            <Stack sx={{ width: "70%" }} spacing={2}>
+              <Alert severity="info">
+                <AlertTitle>Info</AlertTitle>
+                Sorry, we couldn't find any movies matching that name.
+              </Alert>
+            </Stack>
+          ) : (
+            content.map((items, index) => {
+              return (
+                <MovieCard
+                  key={index}
+                  poster={items.poster_path}
+                  title={items.title}
+                  date={items.first_air_date}
+                  vote={items.vote_average}
+                  name={items.name}
+                  type={items.media_type}
+                />
+              );
+            })
+          )}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          {content.map((items, index) => {
-            return (
-              <MovieCard
-                key={index}
-                poster={items.poster_path}
-                title={items.title}
-                date={items.first_air_date}
-                vote={items.vote_average}
-                name={items.name}
-                type={items.media_type}
-              />
-            );
-          })}
+          {content.length === 0 && searched ? (
+            <Stack sx={{ width: "70%" }} spacing={2}>
+              <Alert severity="info">
+                <AlertTitle>Info</AlertTitle>
+                Sorry, we couldn't find any TV Series matching that name.
+              </Alert>
+            </Stack>
+          ) : (
+            content.map((items, index) => {
+              return (
+                <MovieCard
+                  key={index}
+                  poster={items.poster_path}
+                  title={items.title}
+                  date={items.first_air_date}
+                  vote={items.vote_average}
+                  name={items.name}
+                  type={items.media_type}
+                />
+              );
+            })
+          )}
         </CustomTabPanel>
       </Box>
     </>
