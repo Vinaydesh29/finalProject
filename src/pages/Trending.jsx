@@ -32,6 +32,18 @@ function Trending() {
 
   return (
     <>
+      <h2
+        style={{
+          textAlign: "center",
+          color: "whitesmoke",
+          fontWeight: "lighter",
+          fontFamily: "Montserrat",
+          marginTop: "20px",
+          fontSize: "30px",
+        }}
+      >
+        TRENDING TODAY
+      </h2>
       {content &&
         content.map((items, index) => {
           return (

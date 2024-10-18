@@ -86,7 +86,7 @@ function Search() {
           sx={{
             width: "90%",
             marginTop: "50px",
-            backgroundColor: "#546e7a",
+            backgroundColor: "rgba(255, 255, 255, 0.09);",
             borderRadius: "5px",
           }}
           onChange={handleText}

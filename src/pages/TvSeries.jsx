@@ -47,7 +47,9 @@ function TvSeries() {
         style={{
           textAlign: "center",
           fontWeight: "lighter",
-          fontSize: "40px",
+          fontFamily: "Montserrat",
+          marginTop: "20px",
+          fontSize: "30px",
         }}
       >
         DISCOVER SERIES
@@ -60,10 +62,10 @@ function TvSeries() {
                 key={index}
                 poster={items.poster_path}
                 title={items.title}
-                date={items.release_date}
+                date={items.first_air_date}
                 vote={items.vote_average}
                 name={items.name}
-                type={"movie"}
+                type={"tv"}
               />
             );
           })
@@ -74,10 +76,10 @@ function TvSeries() {
                 key={index}
                 poster={items.poster_path}
                 title={items.title}
-                date={items.release_date}
+                date={items.first_air_date}
                 vote={items.vote_average}
                 name={items.name}
-                type={"movie"}
+                type={"tv"}
               />
             );
           })}

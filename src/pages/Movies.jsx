@@ -13,6 +13,9 @@ function Movies() {
   const dataId = (val) => {
     setId(val);
   };
+  const deleteId = (val) => {
+    setId("");
+  };
 
   useEffect(() => {
     const testing = async () => {
@@ -48,13 +51,16 @@ function Movies() {
       <h1
         style={{
           textAlign: "center",
+
           fontWeight: "lighter",
-          fontSize: "40px",
+          fontFamily: "Montserrat",
+          marginTop: "20px",
+          fontSize: "30px",
         }}
       >
         DISCOVER MOVIES
       </h1>
-      <ChipClick genre={genre} dataId={dataId} />
+      <ChipClick genre={genre} dataId={dataId} deleteId={deleteId} />
       {id
         ? filteredContent.map((items, index) => {
             return (

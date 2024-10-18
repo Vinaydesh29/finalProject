@@ -11,7 +11,7 @@ function UserPagination({ setPage, totalPages }) {
         count={totalPages}
         color="primary"
         onChange={handleChange}
-        sx={{ position: "relative", left: "400px" }}
+        sx={{ "& .MuiPagination-ul": { justifyContent: "center" } }}
       />
     </Stack>
   );
