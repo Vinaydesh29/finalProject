@@ -18,8 +18,11 @@ function Movies() {
   };
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
     const testing = async () => {
-      //
       await axios
         .get(
           `https://api.themoviedb.org/3/discover/movie?api_key=a9fcb33911f46a7aabb349c6851d0f8a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate&page=${page}`

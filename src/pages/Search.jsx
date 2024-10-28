@@ -58,10 +58,13 @@ function Search() {
   const [searchText, setSearchText] = useState("");
   const handleClick = () => {
     setSearchText(text);
-    setSearched(true);
   };
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
     const testing = async () => {
       await axios
         .get(
@@ -70,7 +73,11 @@ function Search() {
           }?api_key=a9fcb33911f46a7aabb349c6851d0f8a&language=en-US&query=${searchText}&page=1&include_adult=false`
         )
         .then((result) => {
+          console.log(result.data.results);
           setContent(result.data.results);
+          if (result.data.results.length === 0 && searchText) {
+            setSearched(true);
+          }
         });
     };
     testing();
@@ -142,10 +149,10 @@ function Search() {
                   key={index}
                   poster={items.poster_path}
                   title={items.title}
-                  date={items.first_air_date}
+                  date={items.release_date}
                   vote={items.vote_average}
                   name={items.name}
-                  type={items.media_type}
+                  type={type}
                 />
               );
             })
@@ -169,7 +176,7 @@ function Search() {
                   date={items.first_air_date}
                   vote={items.vote_average}
                   name={items.name}
-                  type={items.media_type}
+                  type={type}
                 />
               );
             })

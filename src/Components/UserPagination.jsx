@@ -11,6 +11,8 @@ function UserPagination({ setPage, totalPages }) {
         count={totalPages}
         color="primary"
         onChange={handleChange}
+        hidePrevButton
+        hideNextButton
         sx={{ "& .MuiPagination-ul": { justifyContent: "center" } }}
       />
     </Stack>

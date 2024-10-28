@@ -8,6 +8,10 @@ function Trending() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
     const testing = async () => {
       //
       await axios
@@ -52,6 +56,7 @@ function Trending() {
               poster={items.poster_path}
               title={items.title}
               date={items.first_air_date}
+              date2={items.release_date}
               vote={items.vote_average}
               name={items.name}
               type={items.media_type}

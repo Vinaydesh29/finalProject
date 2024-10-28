@@ -4,7 +4,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import Badge from "@mui/material/Badge";
-function MovieCard({ poster, title, date, vote, name, type }) {
+import "./MovieCard.css";
+function MovieCard({ poster, title, date, date2, vote, name, type }) {
   const formattedVote = vote ? vote.toFixed(1) : null;
   return (
     <Badge
@@ -12,20 +13,30 @@ function MovieCard({ poster, title, date, vote, name, type }) {
       badgeContent={formattedVote}
       sx={{
         marginTop: "20px",
-        "& .MuiBadge-badge": { zIndex: 0 },
+        "& .MuiBadge-badge": {
+          zIndex: 0,
+          backgroundColor:
+            formattedVote < 5
+              ? "red"
+              : formattedVote > 5 && formattedVote < 7
+              ? "blue"
+              : "green",
+        },
       }}
     >
       <Card
         sx={{
-          maxWidth: 300,
           paddingTop: "10px",
           marginLeft: "20px",
           marginBottom: "20px",
+          width: "200px",
+          height: "350px",
           display: "inline-block",
           backgroundColor: "#282c37",
           transition: "background-color 0.3s ease, color 0.3s ease",
           "&:hover": {
             backgroundColor: "white",
+            color: "black",
             "& .text": {
               color: "black",
             },
@@ -37,9 +48,17 @@ function MovieCard({ poster, title, date, vote, name, type }) {
             component="img"
             image={`https://image.tmdb.org/t/p/w300${poster}`}
             height="250px"
+            maxWidth="200px"
             sx={{ objectFit: "contain" }}
           />
-          <CardContent>
+          <CardContent
+            sx={{
+              display: "flex",
+              height: "80px",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+            }}
+          >
             <Typography
               gutterBottom
               component="div"
@@ -56,11 +75,12 @@ function MovieCard({ poster, title, date, vote, name, type }) {
               style={{
                 textAlign: "center",
                 color: "white",
+                display: "flex",
+                justifyContent: "space-between",
               }}
             >
               <span
                 style={{
-                  marginLeft: "0px",
                   fontSize: "12px",
                   color: "white",
                   fontWeight: "bold",
@@ -70,13 +90,12 @@ function MovieCard({ poster, title, date, vote, name, type }) {
               </span>
               <span
                 style={{
-                  marginLeft: "70px",
                   fontSize: "12px",
                   color: "white",
                   fontWeight: "bold",
                 }}
               >
-                {date}
+                {date || date2}
               </span>
             </div>
           </CardContent>
